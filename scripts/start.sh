@@ -3,7 +3,7 @@
 # Disable Strict Host checking for non interactive git clones
 
 mkdir -p -m 0700 /root/.ssh
-# Prevent config files from being filled to infinity by force of stop and restart the container 
+# Prevent config files from being filled to infinity by force of stop and restart the container
 echo "" > /root/.ssh/config
 echo -e "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 
@@ -97,6 +97,12 @@ if [[ "$HIDE_NGINX_HEADERS" == "0" ]] ; then
 else
  sed -i "s/expose_php = On/expose_php = Off/g" /usr/local/etc/php-fpm.conf
 fi
+
+# custom host name
+if [ ! -z "$SERVER_HOST_NAME" ]; then
+  sed -i "s/server_name _;/server_name ${SERVER_HOST_NAME};" /etc/nginx/sites-available/default.conf
+fi
+
 
 # Pass real-ip to logs when behind ELB, etc
 if [[ "$REAL_IP_HEADER" == "1" ]] ; then
@@ -204,4 +210,3 @@ fi
 
 # Start supervisord and services
 exec /usr/bin/supervisord -n -c /etc/supervisord.conf
-
