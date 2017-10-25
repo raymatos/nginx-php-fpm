@@ -100,7 +100,7 @@ fi
 
 # custom host name
 if [ ! -z "$SERVER_HOST_NAME" ]; then
-  sed -i "s/server_name _;/server_name ${SERVER_HOST_NAME};" /etc/nginx/sites-available/default.conf
+  sed -i "s/server_name _/server_name $SERVER_HOST_NAME/" /etc/nginx/sites-available/default.conf
 fi
 
 
